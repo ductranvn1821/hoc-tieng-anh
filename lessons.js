@@ -9,5 +9,15 @@ window.LESSONS = [
     date: "2026-11-12",
     path: "2026-11-12/bai-1-pets.html",
     words: ["dog", "cat", "fish", "rabbit", "bird", "turtle"]
+  },
+  {
+    id: "bai-2-park-games",
+    topic: 2,
+    title: "Park & Games",
+    vi: "Hoạt động vui chơi",
+    emoji: "⚽",
+    date: "2026-11-12",
+    path: "2026-11-12/bai-2-park-games.html",
+    words: ["run", "walk", "jump", "play football", "ride a bike", "feed the ducks"]
   }
 ];
