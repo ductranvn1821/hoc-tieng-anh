@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kết quả học</title>
+<meta name="theme-color" content="#FF6B5B">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: sổ liên lạc — tóm tắt trên cùng, từng bài ở giữa, bảng chi tiết các lần làm bài ở cuối */
+:root{
+  --sky:#E6F4FF; --paper:#FFFFFF; --ink:#1E2A4A; --ink-soft:#56627F; --line:#CDE2F4;
+  --sun:#FFC83D; --sun-soft:#FFF3CC; --coral:#FF6B5B; --on-coral:#FFFFFF;
+  --grass:#1E9E62; --grass-soft:#DDF6E9; --berry:#D93A55; --berry-soft:#FDE3E7;
+  --display:"Baloo 2","Nunito",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--sky);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-bottom:env(safe-area-inset-bottom,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+p{margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:10px;padding-block:10px}
+.home{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--sun);border:2px solid var(--ink);text-decoration:none;font-size:18px}
+.bar h1{font-family:var(--display);font-weight:800;font-size:24px;margin:0;flex:1;min-width:0}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--sun);border:2px solid var(--ink);border-radius:999px;padding:7px 16px;font-weight:800;box-shadow:0 3px 0 var(--ink);white-space:nowrap;text-decoration:none}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:var(--paper)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+.source{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding-block:18px 4px;font-weight:700;color:var(--ink-soft)}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:3px 12px;font-size:14px}
+.pill.ok{border-color:var(--grass);background:var(--grass-soft);color:var(--ink)}
+.pill.warn{border-color:var(--coral);background:var(--berry-soft);color:var(--ink)}
+
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding-block:14px}
+.tile{background:var(--paper);border:3px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);padding:14px 16px;min-width:0}
+.tile span{display:block;font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+.tile b{font-family:var(--display);font-size:40px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile small{font-size:16px;color:var(--ink-soft);font-weight:700}
+
+.sec{padding-block:20px}
+.sec h2{font-family:var(--display);font-size:26px;margin:0 0 12px;line-height:1.1}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.lcard{background:var(--paper);border:2px solid var(--line);border-radius:20px;padding:14px 16px;display:grid;gap:8px;min-width:0}
+.lcard-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.lcard h3{font-family:var(--display);font-size:22px;margin:0;line-height:1.1}
+.lcard .best{font-weight:800;white-space:nowrap}
+.lcard .meta{font-size:14px;font-weight:700;color:var(--ink-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.sc{display:inline-grid;place-items:center;min-width:42px;padding:2px 8px;border-radius:10px;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums;border:2px solid transparent}
+.l4{background:var(--grass-soft);border-color:var(--grass)}
+.l3{background:var(--sun-soft);border-color:var(--sun)}
+.l2{background:var(--paper);border-color:var(--coral)}
+.l1{background:var(--berry-soft);border-color:var(--berry)}
+
+.table-wrap{overflow-x:auto;background:var(--paper);border:2px solid var(--line);border-radius:18px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);background:var(--sky);position:sticky;top:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+td .detail{color:var(--ink-soft);font-size:14px}
+tr:last-child td{border-bottom:0}
+
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.tool{background:var(--sun-soft);border:3px dashed var(--sun);border-radius:20px;padding:14px 16px;display:grid;gap:10px;align-content:start}
+.tool h3{font-family:var(--display);font-size:20px;margin:0}
+.tool p{color:var(--ink-soft);font-weight:600;font-size:15px}
+.row-in{display:flex;gap:8px;flex-wrap:wrap}
+.row-in input{flex:1;min-width:0;border:2px solid var(--ink);border-radius:12px;padding:7px 12px;background:var(--paper)}
+.empty{background:var(--paper);border:3px dashed var(--line);border-radius:20px;padding:28px;text-align:center;display:grid;gap:8px;justify-items:center}
+.empty b{font-family:var(--display);font-size:24px}
+.foot{padding-block:10px 40px;text-align:center;color:var(--ink-soft);font-size:14px;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translate(-50%,160%);z-index:40;background:var(--ink);color:var(--paper);font-weight:800;padding:10px 20px;border-radius:999px;transition:transform .25s;max-width:calc(100% - 32px);text-align:center}
+.toast.show{transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:760px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tile b{font-size:32px}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="home" href="index.html" title="Về trang chủ">🏠</a>
+    <h1>📊 Kết quả học</h1>
+    <button class="btn ghost" id="reload">🔄 Tải lại</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="source" id="source"></div>
+  <div id="content"></div>
+
+  <section class="sec">
+    <h2>Công cụ cho bố mẹ</h2>
+    <div class="tools">
+      <div class="tool">
+        <h3>⬇ Tải file kết quả</h3>
+        <p>Tải bảng điểm về máy dạng file CSV, mở được bằng Excel hoặc Google Sheets.</p>
+        <div><button class="btn" id="csv">⬇ Tải file CSV</button></div>
+      </div>
+      <div class="tool">
+        <h3>💻 Tên máy này</h3>
+        <p>Đặt tên để biết bé làm bài trên máy nào, ví dụ "Máy nhà" hoặc "Laptop".</p>
+        <div class="row-in"><input id="device" maxlength="30" placeholder="Tên máy"><button class="btn" id="saveDevice">Lưu</button></div>
+      </div>
+      <div class="tool" id="syncTool" hidden>
+        <h3>☁️ Gửi về file quản lý</h3>
+        <p id="syncText"></p>
+        <div><button class="btn" id="syncBtn">Gửi lại ngay</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="wrap foot">Điểm theo thang 10. Bố mẹ xem điểm từng phần ở bảng "Tất cả các lần làm bài".</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js"></script>
+<script src="common/tracker.js"></script>
+<script>
+(function(){
+  var CFG = window.APP_CONFIG || {};
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function fmt(n){ return String(Math.round(n*10)/10).replace('.', ','); }
+  function lvl(s){ return s >= 9 ? 'l4' : s >= 7 ? 'l3' : s >= 5 ? 'l2' : 'l1'; }
+  function when(iso){ var d = new Date(iso); return d.toLocaleDateString('vi-VN') + ' ' + d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}); }
+  function detail(r){ return Object.keys(r.parts || {}).map(function(k){ var p = r.parts[k]; return p.label + ': ' + p.text + ' (' + fmt(p.points) + '/' + p.max + ')'; }); }
+  var tt;
+  function toast(m){ var t = $('toast'); t.textContent = m; t.className = 'toast show'; clearTimeout(tt); tt = setTimeout(function(){ t.className = 'toast'; }, 2200); }
+
+  var records = [];
+
+  function render(sourceNote, sourceKind){
+    $('source').innerHTML = '<span class="pill ' + (sourceKind || '') + '">' + sourceNote + '</span>';
+    var unsynced = window.Tracker ? window.Tracker.all().filter(function(r){ return !r.synced; }).length : 0;
+    if(CFG.sheetUrl){
+      $('syncTool').hidden = false;
+      $('syncText').textContent = unsynced ? ('Còn ' + unsynced + ' lần làm bài trên máy này chưa gửi được (có thể do lúc đó mất mạng).') : 'Mọi kết quả trên máy này đã được gửi về file quản lý.';
+      $('syncBtn').disabled = !unsynced;
+    }
+    if(!records.length){
+      $('content').innerHTML = '<div class="empty"><b>Chưa có kết quả nào</b><p>Học xong một bài, kéo xuống phần "Chấm điểm" và bấm <b>Nộp bài</b>. Điểm sẽ hiện ở đây.</p><a class="btn" href="index.html">Đi học thôi!</a></div>';
+      return;
+    }
+    var sorted = records.slice().sort(function(a,b){ return a.at < b.at ? 1 : -1; });
+    var sum = 0, best = 0, lessons = {};
+    records.forEach(function(r){
+      sum += r.score; best = Math.max(best, r.score);
+      var L = lessons[r.lesson] = lessons[r.lesson] || {title:r.title, topic:r.topic, list:[]};
+      L.list.push(r);
+    });
+    var ids = Object.keys(lessons).sort(function(a,b){ return lessons[a].topic - lessons[b].topic; });
+
+    var html = '<div class="tiles">' +
+      '<div class="tile"><span>Lần nộp bài</span><b>' + records.length + '</b></div>' +
+      '<div class="tile"><span>Điểm trung bình</span><b>' + fmt(sum / records.length) + '</b><small>/10</small></div>' +
+      '<div class="tile"><span>Điểm cao nhất</span><b>' + fmt(best) + '</b><small>/10</small></div>' +
+      '<div class="tile"><span>Số bài đã làm</span><b>' + ids.length + '</b></div></div>';
+
+    html += '<section class="sec"><h2>Theo từng bài</h2><div class="lessons">' + ids.map(function(id){
+      var L = lessons[id], list = L.list.slice().sort(function(a,b){ return a.at < b.at ? -1 : 1; });
+      var b = Math.max.apply(null, list.map(function(r){ return r.score; })), last = list[list.length-1];
+      return '<article class="lcard"><div class="lcard-top"><h3>Chủ đề ' + esc(L.topic) + ': ' + esc(L.title) + '</h3><span class="best">🏅 ' + fmt(b) + '/10</span></div>' +
+        '<p class="meta">' + list.length + ' lần làm · lần gần nhất ' + esc(when(last.at)) + ': ' + fmt(last.score) + ' điểm</p>' +
+        '<div class="chips" title="Các lần làm bài, cũ đến mới">' + list.slice(-12).map(function(r){ return '<span class="sc ' + lvl(r.score) + '">' + fmt(r.score) + '</span>'; }).join('') + '</div></article>';
+    }).join('') + '</div></section>';
+
+    html += '<section class="sec"><h2>Tất cả các lần làm bài</h2><div class="table-wrap"><table><thead><tr>' +
+      '<th>Thời gian</th><th>Bài</th><th>Điểm</th><th>Nhận xét</th><th>Chi tiết từng phần</th><th>Phút</th><th>Máy</th></tr></thead><tbody>' +
+      sorted.map(function(r){
+        return '<tr><td class="num">' + esc(when(r.at)) + '</td><td>Chủ đề ' + esc(r.topic) + ': ' + esc(r.title) + '</td>' +
+          '<td class="num"><span class="sc ' + lvl(r.score) + '">' + fmt(r.score) + '</span></td><td>' + esc(r.comment) + '</td>' +
+          '<td><span class="detail">' + detail(r).map(esc).join('<br>') + '</span></td><td class="num">' + esc(r.minutes) + '</td><td>' + esc(r.device || '—') + '</td></tr>';
+      }).join('') + '</tbody></table></div></section>';
+    $('content').innerHTML = html;
+  }
+
+  function load(){
+    var local = window.Tracker ? window.Tracker.all() : [];
+    records = local.slice();
+    if(!CFG.sheetUrl){ render('📱 Kết quả lưu trên máy này'); return; }
+    render('⏳ Đang tải từ file quản lý…');
+    fetch(CFG.sheetUrl + '?key=' + encodeURIComponent(CFG.sheetKey || ''), {cache:'no-store'})
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(!d || !d.ok) throw new Error('bad');
+        var seen = {};
+        records = [];
+        (d.rows || []).concat(local).forEach(function(r){ if(r && r.id && !seen[r.id]){ seen[r.id] = 1; records.push(r); } });
+        render('☁️ Kết quả của tất cả các máy (file quản lý Google Sheet)', 'ok');
+      })
+      .catch(function(){ render('⚠️ Chưa tải được file quản lý, đang hiện kết quả trên máy này', 'warn'); });
+  }
+
+  $('reload').addEventListener('click', load);
+
+  try{ $('device').value = localStorage.getItem('device-name') || ''; }catch(e){}
+  $('saveDevice').addEventListener('click', function(){
+    try{ localStorage.setItem('device-name', $('device').value.trim()); toast('Đã lưu tên máy'); }catch(e){ toast('Không lưu được tên máy'); }
+  });
+
+  $('syncBtn').addEventListener('click', function(){
+    if(window.Tracker){ window.Tracker.flush(); toast('Đang gửi…'); setTimeout(load, 2500); }
+  });
+
+  $('csv').addEventListener('click', function(){
+    if(!records.length){ toast('Chưa có kết quả để tải'); return; }
+    function q(v){ return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; }
+    var head = ['Thời gian','Máy','Chủ đề','Bài','Điểm /10','Nhận xét','Chi tiết từng phần','Số phút'];
+    var lines = [head.map(q).join(',')];
+    records.slice().sort(function(a,b){ return a.at < b.at ? -1 : 1; }).forEach(function(r){
+      lines.push([when(r.at), r.device || '', r.topic, r.title, fmt(r.score), r.comment, detail(r).join(' | '), r.minutes].map(q).join(','));
+    });
+    var blob = new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ket-qua-hoc-' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

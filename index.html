@@ -92,6 +92,8 @@ p{margin:0}
   .row{grid-template-columns:auto minmax(0,1fr)}
   .row .r-stars{grid-column:2}
   .logo span{font-size:19px}
+  .res-t{display:none}
+  .bar .btn{padding:6px 10px}
 }
 </style>
 </head>
@@ -99,6 +101,7 @@ p{margin:0}
 <header class="bar">
   <div class="wrap bar-in">
     <div class="logo"><img src="icons/icon-192.png" alt=""><span>Bé Học Tiếng Anh</span></div>
+    <a class="btn ghost" href="ket-qua.html" title="Xem điểm các bài">📊<span class="res-t"> Kết quả</span></a>
     <div class="stars" title="Tổng số sao trên máy này">⭐ <span id="total">0</span></div>
   </div>
 </header>
@@ -156,6 +159,10 @@ p{margin:0}
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function starsOf(id){ try{ return parseInt(localStorage.getItem('stars:'+id),10) || 0; }catch(e){ return 0; } }
+  var RESULTS = [];
+  try{ RESULTS = JSON.parse(localStorage.getItem('results:v1')) || []; }catch(e){}
+  function bestOf(id){ var b = null; RESULTS.forEach(function(r){ if(r.lesson === id && (b === null || r.score > b)) b = r.score; }); return b; }
+  function fmtS(n){ return String(n).replace('.', ','); }
   function niceDate(d){
     try{ var p = d.split('-'); var dt = new Date(+p[0], +p[1]-1, +p[2]);
       var s = dt.toLocaleDateString('vi-VN',{weekday:'long', day:'2-digit', month:'2-digit', year:'numeric'});
@@ -182,10 +189,10 @@ p{margin:0}
     if(!mine.length){
       return '<li class="topic locked"><span class="n">'+t.n+'</span><span class="t-emo">'+t.emo+'</span><b>'+esc(t.en)+'</b><span class="t-vi">'+esc(t.vi)+'</span><span class="t-state">🔒 Sắp có</span></li>';
     }
-    var last = mine[mine.length-1], st = 0;
-    mine.forEach(function(l){ st += starsOf(l.id); });
+    var last = mine[mine.length-1], bt = null;
+    mine.forEach(function(l){ var b = bestOf(l.id); if(b !== null && (bt === null || b > bt)) bt = b; });
     return '<li class="topic"><span class="n">'+t.n+'</span><span class="t-emo">'+t.emo+'</span><b>'+esc(t.en)+'</b><span class="t-vi">'+esc(t.vi)+'</span>'+
-      '<span class="t-state'+(st?' done':'')+'">'+(st ? '⭐ '+st+' sao' : mine.length+' bài')+'</span>'+
+      '<span class="t-state'+(bt !== null ? ' done' : '')+'">'+(bt !== null ? '🏅 '+fmtS(bt)+'/10' : mine.length+' bài')+'</span>'+
       '<a class="btn" href="'+esc(last.path)+'">Học ngay</a></li>';
   }).join('');
 
@@ -194,10 +201,10 @@ p{margin:0}
   var dates = Object.keys(byDay).sort().reverse();
   $('days').innerHTML = dates.length ? dates.map(function(d){
     return '<div class="day"><h4>'+esc(niceDate(d))+'</h4><ul>'+byDay[d].map(function(l){
-      var st = starsOf(l.id);
+      var bt = bestOf(l.id), st = starsOf(l.id);
       return '<li><a class="row" href="'+esc(l.path)+'"><span class="r-emo">'+l.emoji+'</span>'+
         '<span><b>Chủ đề '+l.topic+': '+esc(l.title)+'</b><br><span class="words">'+esc((l.words||[]).join(' · '))+'</span></span>'+
-        '<span class="r-stars">'+(st ? '⭐ '+st : 'Chưa học')+'</span></a></li>';
+        '<span class="r-stars">'+(bt !== null ? '🏅 '+fmtS(bt)+'/10' : (st ? '⭐ '+st : 'Chưa nộp bài'))+'</span></a></li>';
     }).join('')+'</ul></div>';
   }).join('') : '<p>Chưa có bài nào.</p>';
 

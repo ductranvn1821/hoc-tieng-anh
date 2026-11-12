@@ -238,6 +238,7 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
       <button class="chip" data-go="chat"><b>3</b>Nói với cô</button>
       <button class="chip" data-go="quiz"><b>4</b>Trắc nghiệm</button>
       <button class="chip" data-go="match"><b>5</b>Nối từ</button>
+      <button class="chip" data-go="score"><b>6</b>Chấm điểm</button>
     </div>
     <button class="speed" id="speedBtn" aria-pressed="false" title="Đổi tốc độ giọng đọc">🐇<span class="lbl"> Đọc thường</span></button>
     <div class="stars" id="stars" aria-live="polite" title="Số sao bạn đã nhận">⭐ <span id="starCount">0</span></div>
@@ -355,6 +356,14 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
       </div>
     </div>
   </section>
+  <!-- 6. Chấm điểm -->
+  <section class="wrap sec" id="score">
+    <div class="sec-head">
+      <span class="step">6</span>
+      <h2>Chấm điểm <small>Làm xong Trắc nghiệm và Nối từ rồi bấm Nộp bài</small></h2>
+    </div>
+    <div class="panel" id="scorePanel"><p class="vi">Đang tải phần chấm điểm…</p></div>
+  </section>
 </main>
 
 <footer class="wrap foot">
@@ -365,6 +374,8 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
 <div class="toast" id="toast" role="status"></div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 
+<script src="../config.js"></script>
+<script src="../common/tracker.js"></script>
 <script>
 (function(){
   var $ = function(s){ return document.querySelector(s); };
@@ -390,6 +401,13 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
   var GOOD = ['Giỏi quá! Great job! 🎉','Đúng rồi! Excellent! ⭐','Tuyệt vời! Super! 🌟','Hay lắm! Well done! 👏','Siêu quá! Amazing! 🥳'];
   var TRY = ['Gần đúng rồi! Thử lại nhé 💪','Không sao, cố lên nào! 🌈'];
   var KID_PITCH = 1.35, NAM_PITCH = 0.9;
+  var TK = window.Tracker || null;
+  if(TK){ TK.init({id:'bai-1-pets', topic:1, title:'Pets', activities:[
+    {id:'vocab', label:'Nghe từ vựng',      weight:1},
+    {id:'chat',  label:'Nói chuyện với cô', weight:1},
+    {id:'quiz',  label:'Trắc nghiệm',       weight:5, required:true},
+    {id:'match', label:'Nối từ',            weight:3, required:true}
+  ]}); }
 
   function strip(s){ return s.replace(/^\/|\/$/g,''); }
   function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -517,6 +535,7 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
       heard[i] = true; heardN++;
       b.parentNode.querySelector('.heard').hidden = false;
       $('#heardCount').textContent = heardN;
+      if(TK) TK.mark('vocab', heardN/PETS.length, 'Đã nghe '+heardN+'/'+PETS.length+' từ');
       if(heardN === PETS.length){ addStars(1); yay(); toast('Bạn đã nghe đủ 6 từ! +1 ⭐','good'); }
     }
   });
@@ -614,6 +633,7 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
   }
   function finish(){
     addStars(2); yay(); toast('Bạn nói chuyện giỏi lắm! +2 ⭐','good');
+    if(TK) TK.mark('chat', 1, 'Đã nói chuyện xong với cô');
     opts.innerHTML = '<button class="say big" id="chatAgain">🔄 Nói chuyện lại với cô</button>';
     $('#chatAgain').addEventListener('click', function(){ chatStart(false); });
   }
@@ -661,6 +681,7 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
       '<p class="r-stars">'+new Array(score+1).join('⭐')+new Array(n-score+1).join('☆')+'</p><p class="vi">'+line+'</p>'+
       '<button class="say big" id="qAgain">🔄 Chơi lại</button></div>';
     speak(said);
+    if(TK) TK.mark('quiz', score/n, score+'/'+n+' câu đúng');
     if(score >= 6) confetti();
   }
   box.addEventListener('click', function(e){
@@ -681,10 +702,10 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
   quizStart(false);
 
   /* ---------- 5. Nối từ ---------- */
-  var sel = {l:null, r:null}, matched = 0;
+  var sel = {l:null, r:null}, matched = 0, mistakes = 0;
   function petOf(w){ for(var i=0;i<PETS.length;i++){ if(PETS[i].w === w) return PETS[i]; } }
   function matchStart(){
-    matched = 0; sel = {l:null, r:null};
+    matched = 0; mistakes = 0; sel = {l:null, r:null};
     $('#matchL').innerHTML = shuffle(PETS.slice()).map(function(p){ return '<button class="mitem emo" data-side="l" data-w="'+p.w+'" aria-label="'+p.vi+'">'+p.e+'</button>'; }).join('');
     $('#matchR').innerHTML = shuffle(PETS.slice()).map(function(p){ return '<button class="mitem" data-side="r" data-w="'+p.w+'">'+p.w+'</button>'; }).join('');
     $('#matchCount').textContent = '0';
@@ -706,15 +727,25 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
         [a,c].forEach(function(x){ x.classList.remove('sel'); x.classList.add('ok'); x.style.setProperty('--tint', p.tint); x.disabled = true; });
         speak(p.w); yay();
         matched++; $('#matchCount').textContent = matched;
-        if(matched === PETS.length){ addStars(3); toast('Bạn nối đúng hết rồi! +3 ⭐','good'); confetti(); $('#matchDone').hidden = false; }
+        if(matched === PETS.length){ if(TK) TK.mark('match', PETS.length/(PETS.length+mistakes), mistakes ? 'Nối sai '+mistakes+' lần' : 'Không sai lần nào'); addStars(3); toast('Bạn nối đúng hết rồi! +3 ⭐','good'); confetti(); $('#matchDone').hidden = false; }
         else toast(pick(GOOD),'good');
       } else {
         [a,c].forEach(function(x){ x.classList.add('bad'); });
-        oops(); toast(pick(TRY),'try');
+        mistakes++; oops(); toast(pick(TRY),'try');
         setTimeout(function(){ [a,c].forEach(function(x){ x.classList.remove('bad','sel'); }); }, 600);
       }
     }
   });
   matchStart();
+
+  /* ---------- 6. Chấm điểm ---------- */
+  if(TK){
+    TK.mount($('#scorePanel'));
+    document.addEventListener('tracker:submit', function(e){
+      var r = e.detail;
+      toast('Bạn được '+TK.fmt(r.score)+' điểm! '+r.comment, r.score >= 5 ? 'good' : 'try');
+      if(r.score >= 8){ yay(); confetti(); }
+    });
+  } else { $('#score').hidden = true; }
 })();
 </script>

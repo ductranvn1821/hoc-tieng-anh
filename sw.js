@@ -1,6 +1,6 @@
 /* Lấy bản mới nhất khi có mạng, dùng bản đã lưu khi mất mạng. */
-var CACHE = 'be-hoc-tieng-anh-v1';
-var CORE = ['./', './index.html', './lessons.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
+var CACHE = 'be-hoc-tieng-anh-v2';
+var CORE = ['./', './index.html', './ket-qua.html', './lessons.js', './config.js', './common/tracker.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); }));
