@@ -1,5 +1,5 @@
-/* Lấy bản mới nhất khi có mạng, dùng bản đã lưu khi mất mạng. */
-var CACHE = 'be-hoc-tieng-anh-v3';
+﻿/* Lấy bản mới nhất khi có mạng, dùng bản đã lưu khi mất mạng. */
+var CACHE = 'be-hoc-tieng-anh-v4';
 var CORE = ['./', './index.html', './ket-qua.html', './lessons.js', './config.js', './common/tracker.js', './common/practice.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', function (e) {
