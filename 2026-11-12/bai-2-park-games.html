@@ -30,6 +30,7 @@
   color-scheme:light;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{background:var(--sky);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
@@ -238,7 +239,9 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
       <button class="chip" data-go="chat"><b>3</b>Nói với cô</button>
       <button class="chip" data-go="quiz"><b>4</b>Trắc nghiệm</button>
       <button class="chip" data-go="match"><b>5</b>Nối từ</button>
-      <button class="chip" data-go="score"><b>6</b>Chấm điểm</button>
+      <button class="chip" data-go="listen"><b>6</b>Luyện nghe</button>
+      <button class="chip" data-go="speakSec"><b>7</b>Luyện nói</button>
+      <button class="chip" data-go="score"><b>8</b>Chấm điểm</button>
     </div>
     <button class="speed" id="speedBtn" aria-pressed="false" title="Đổi tốc độ giọng đọc">🐇<span class="lbl"> Đọc thường</span></button>
     <div class="stars" id="stars" aria-live="polite" title="Số sao bạn đã nhận">⭐ <span id="starCount">0</span></div>
@@ -356,11 +359,29 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
       </div>
     </div>
   </section>
-  <!-- 6. Chấm điểm -->
-  <section class="wrap sec" id="score">
+  <!-- 6. Luyện nghe -->
+  <section class="wrap sec" id="listen">
     <div class="sec-head">
       <span class="step">6</span>
-      <h2>Chấm điểm <small>Làm xong Trắc nghiệm và Nối từ rồi bấm Nộp bài</small></h2>
+      <h2>Luyện nghe <small>Nghe cô đọc, rồi xếp các từ thành câu đúng</small></h2>
+    </div>
+    <div class="panel" id="listenBox"></div>
+  </section>
+
+  <!-- 7. Luyện nói -->
+  <section class="wrap sec" id="speakSec">
+    <div class="sec-head">
+      <span class="step">7</span>
+      <h2>Luyện nói <small>Nghe mẫu, bấm 🎙️ rồi nói theo, cô chấm điểm ngay</small></h2>
+    </div>
+    <div class="panel" id="speakBox"></div>
+  </section>
+
+  <!-- 8. Chấm điểm -->
+  <section class="wrap sec" id="score">
+    <div class="sec-head">
+      <span class="step">8</span>
+      <h2>Chấm điểm <small>Làm xong các phần rồi bấm Nộp bài (bắt buộc: Trắc nghiệm, Nối từ)</small></h2>
     </div>
     <div class="panel" id="scorePanel"><p class="vi">Đang tải phần chấm điểm…</p></div>
   </section>
@@ -376,6 +397,7 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
 
 <script src="../config.js"></script>
 <script src="../common/tracker.js"></script>
+<script src="../common/practice.js"></script>
 <script>
 (function(){
   var $ = function(s){ return document.querySelector(s); };
@@ -402,10 +424,12 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
   var KID_PITCH = 1.35, NAM_PITCH = 0.9;
   var TK = window.Tracker || null;
   if(TK){ TK.init({id:'bai-2-park-games', topic:2, title:'Park & Games', activities:[
-    {id:'vocab', label:'Nghe từ vựng',      weight:1},
-    {id:'chat',  label:'Nói chuyện với cô', weight:1},
-    {id:'quiz',  label:'Trắc nghiệm',       weight:5, required:true},
-    {id:'match', label:'Nối từ',            weight:3, required:true}
+    {id:'vocab',  label:'Nghe từ vựng',      weight:1},
+    {id:'chat',   label:'Nói chuyện với cô', weight:1},
+    {id:'quiz',   label:'Trắc nghiệm',       weight:3, required:true},
+    {id:'match',  label:'Nối từ',            weight:2, required:true},
+    {id:'listen', label:'Luyện nghe',        weight:1.5},
+    {id:'speak',  label:'Luyện nói',         weight:1.5}
   ]}); }
 
   function strip(s){ return s.replace(/^\/|\/$/g,''); }
@@ -439,7 +463,7 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
     var u = new SpeechSynthesisUtterance(String(text));
     u.lang = 'en-US';
     if(voice) u.voice = voice;
-    u.rate = slow ? 0.6 : 0.9;
+    u.rate = (window.Practice ? Practice.getRate() : (slow ? 0.6 : 0.9)) * (o.rateMul || 1);
     u.pitch = o.pitch || 1.1;
     if(o.onstart) u.onstart = o.onstart;
     if(o.onend) u.onend = o.onend;
@@ -506,7 +530,8 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
     var g = e.target.closest('[data-go]');
     if(g){ var target = document.getElementById(g.getAttribute('data-go')); if(target) target.scrollIntoView({block:'start'}); }
   });
-  $('#speedBtn').addEventListener('click', function(){
+  if(window.Practice) Practice.mountRateButton($('#speedBtn'));
+  else $('#speedBtn').addEventListener('click', function(){
     slow = !slow;
     this.setAttribute('aria-pressed', slow ? 'true' : 'false');
     this.innerHTML = slow ? '🐢<span class="lbl"> Đọc chậm</span>' : '🐇<span class="lbl"> Đọc thường</span>';
@@ -725,7 +750,19 @@ h2 small{display:block;font-family:var(--body);font-size:16px;font-weight:700;co
   });
   matchStart();
 
-  /* ---------- 6. Chấm điểm ---------- */
+  /* ---------- 6–7. Luyện nghe, luyện nói ---------- */
+  if(window.Practice){
+    var PR_SENT = DIALOG.map(function(d){ return {en:d.en, ipa:d.ipa, vi:d.vi}; });
+    var PR_EX = PETS.map(function(p){ return {en:p.ex, ipa:p.exIpa, vi:p.exVi}; });
+    var PR_WORDS = PETS.map(function(p){ return {en:p.w, ipa:p.ipa, vi:p.vi, e:p.e}; });
+    Practice.mountListening($('#listenBox'), {items: PR_SENT.concat(PR_EX), count: 5, speak: speak,
+      onAnswer: function(ok){ if(ok) yay(); else oops(); },
+      onDone: function(c, n){ if(TK) TK.mark('listen', c/n, 'Xếp đúng '+c+'/'+n+' câu'); if(c === n) confetti(); }});
+    Practice.mountSpeaking($('#speakBox'), {words: PR_WORDS, sentences: PR_SENT.concat(PR_EX), speak: speak,
+      onDone: function(avg, said, n){ if(TK) TK.mark('speak', avg, 'Đã nói '+said+'/'+n+' câu · đúng '+Math.round(avg*100)+'%'); }});
+  } else { $('#listen').hidden = true; $('#speakSec').hidden = true; }
+
+  /* ---------- 8. Chấm điểm ---------- */
   if(TK){
     TK.mount($('#scorePanel'));
     document.addEventListener('tracker:submit', function(e){

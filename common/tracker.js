@@ -98,7 +98,7 @@
         '<span class="tk-ic" aria-hidden="true">' + (m ? '✅' : '⬜') + '</span>' +
         '<span class="tk-l"><b>' + a.label + '</b><small>' + (m ? m.text : (a.required ? 'Bắt buộc · chưa làm' : 'Chưa làm')) + '</small></span>' +
         '<span class="tk-bar" aria-hidden="true"><i style="width:' + (m ? Math.round(m.ratio * 100) : 0) + '%"></i></span>' +
-        '<span class="tk-p">' + fmt(pts) + '<small>/' + a.weight + '</small></span></li>';
+        '<span class="tk-p">' + fmt(pts) + '<small>/' + fmt(a.weight) + '</small></span></li>';
     }).join('');
     var ok = ready();
     var need = lesson.activities.filter(function (a) { return a.required && !marks[a.id]; }).map(function (a) { return a.label; });
