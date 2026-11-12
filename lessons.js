@@ -19,5 +19,15 @@ window.LESSONS = [
     date: "2026-11-12",
     path: "2026-11-12/bai-2-park-games.html",
     words: ["run", "walk", "jump", "play football", "ride a bike", "feed the ducks"]
+  },
+  {
+    id: "bai-3-food-drinks",
+    topic: 3,
+    title: "Food & Drinks",
+    vi: "Món ăn & đồ uống",
+    emoji: "🍜",
+    date: "2026-11-12",
+    path: "2026-11-12/bai-3-food-drinks.html",
+    words: ["noodles", "chicken", "rice", "bread", "milk", "juice"]
   }
 ];
