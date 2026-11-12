@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bé Học Tiếng Anh</title>
+<meta name="theme-color" content="#FF6B5B">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: bảng bản đồ học tập — 5 chủ đề nối nhau như các trạm, bên dưới là lịch sử bài theo ngày */
+:root{
+  --sky:#E6F4FF; --paper:#FFFFFF; --ink:#1E2A4A; --ink-soft:#56627F; --line:#CDE2F4;
+  --sun:#FFC83D; --sun-soft:#FFF3CC; --coral:#FF6B5B; --on-coral:#FFFFFF;
+  --grass:#1E9E62; --grass-soft:#DDF6E9; --lock:#EEF2F7;
+  --display:"Baloo 2","Nunito",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--sky);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding-bottom:env(safe-area-inset-bottom,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+p{margin:0}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:10px;padding-block:10px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:800;font-size:22px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo img{width:34px;height:34px;border-radius:10px;border:2px solid var(--ink)}
+.stars{white-space:nowrap;font-family:var(--display);font-weight:800;font-size:20px;background:var(--sun-soft);border:2px solid var(--sun);border-radius:999px;padding:2px 12px;font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--sun);border:2px solid var(--ink);border-radius:999px;padding:7px 16px;font-weight:800;box-shadow:0 3px 0 var(--ink);text-decoration:none;white-space:nowrap}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:var(--paper)}
+.btn.big{font-size:19px;padding:10px 22px}
+
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;align-items:center;padding-block:32px 8px}
+.hello{font-family:var(--display);font-weight:800;font-size:clamp(36px,6vw,56px);line-height:1.02;margin:0 0 10px;text-wrap:balance}
+.hello-sub{color:var(--ink-soft);font-weight:700;font-size:18px;max-width:34ch}
+.latest{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;background:var(--paper);border:3px solid var(--ink);border-radius:24px;box-shadow:0 6px 0 var(--ink);padding:18px;text-decoration:none}
+.latest .emo{display:grid;place-items:center;width:96px;height:96px;border-radius:22px;background:var(--sun);border:3px solid var(--ink);font-size:58px}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--on-coral);background:var(--coral);border-radius:999px;padding:2px 10px}
+.latest h2{font-family:var(--display);font-size:32px;line-height:1.05;margin:6px 0 0}
+.latest .vi{color:var(--ink-soft);font-weight:700}
+.latest .go{margin-top:10px}
+
+.sec{padding-block:30px}
+.sec h3{font-family:var(--display);font-size:28px;margin:0 0 14px;line-height:1.1}
+.sec h3 small{display:block;font-family:var(--body);font-size:15px;color:var(--ink-soft);font-weight:700}
+.topics{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.topic{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);padding:14px 12px;display:grid;gap:4px;justify-items:center;text-align:center;min-width:0}
+.topic.locked{background:var(--lock);border-color:var(--line);box-shadow:0 5px 0 var(--line);color:var(--ink-soft)}
+.topic .n{position:absolute;top:-14px;left:12px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--coral);color:var(--on-coral);font-family:var(--display);font-weight:800;border:2px solid var(--ink)}
+.topic.locked .n{background:var(--line);color:var(--ink-soft);border-color:var(--line)}
+.topic .t-emo{font-size:44px;line-height:1.2}
+.topic b{font-family:var(--display);font-size:20px;line-height:1.1}
+.topic .t-vi{font-size:14px;font-weight:700;color:var(--ink-soft)}
+.topic .t-state{margin-top:6px;font-size:14px;font-weight:800}
+.topic .t-state.done{color:var(--grass)}
+.topic a.btn{font-size:15px;padding:5px 12px;margin-top:6px}
+
+.days{display:grid;gap:18px}
+.day h4{margin:0 0 8px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)}
+.day ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--paper);border:2px solid var(--line);border-radius:18px;padding:10px 14px;text-decoration:none}
+.row:hover{border-color:var(--ink)}
+.row .r-emo{font-size:34px}
+.row b{font-family:var(--display);font-size:20px}
+.row .words{font-size:14px;color:var(--ink-soft);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .r-stars{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.help{display:grid;gap:10px;background:var(--sun-soft);border:3px dashed var(--sun);border-radius:22px;padding:16px 20px}
+.help-actions{display:flex;flex-wrap:wrap;gap:10px}
+.help p{color:var(--ink-soft);font-weight:600}
+.foot{padding-block:10px 40px;text-align:center;color:var(--ink-soft);font-size:14px;font-weight:600}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .topics{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:24px}
+}
+@media (max-width:520px){
+  .topics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .latest{grid-template-columns:1fr;justify-items:start}
+  .latest .emo{width:76px;height:76px;font-size:46px}
+  .row{grid-template-columns:auto minmax(0,1fr)}
+  .row .r-stars{grid-column:2}
+  .logo span{font-size:19px}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap bar-in">
+    <div class="logo"><img src="icons/icon-192.png" alt=""><span>Bé Học Tiếng Anh</span></div>
+    <div class="stars" title="Tổng số sao trên máy này">⭐ <span id="total">0</span></div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div>
+      <h1 class="hello">Hello! Hôm nay mình học gì nào?</h1>
+      <p class="hello-sub">Tiếng Anh lớp 3 với cô giáo vui vẻ. Bài mới được thêm vào đây mỗi ngày.</p>
+    </div>
+    <a class="latest" id="latest" href="#">
+      <span class="emo" id="latestEmo">🐾</span>
+      <span>
+        <span class="tag" id="latestTag">Bài mới nhất</span>
+        <h2 id="latestTitle">Đang tải…</h2>
+        <span class="vi" id="latestVi"></span><br>
+        <span class="btn go">▶ Vào học</span>
+      </span>
+    </a>
+  </section>
+
+  <section class="wrap sec">
+    <h3>5 chủ đề <small>Đi lần lượt từ trạm 1 đến trạm 5</small></h3>
+    <ol class="topics" id="topics"></ol>
+  </section>
+
+  <section class="wrap sec">
+    <h3>Bài học theo ngày <small>Bài mới nhất ở trên cùng</small></h3>
+    <div class="days" id="days"></div>
+  </section>
+
+  <section class="wrap sec">
+    <div class="help">
+      <p><b>Mẹo cho bố mẹ:</b> mở bằng Chrome hoặc Edge để nghe giọng đọc mẫu. Bấm "Tìm bài mới" để tải bài hôm nay. Sao của bé lưu riêng trên từng máy.</p>
+      <div class="help-actions">
+        <button class="btn" id="refresh">🔄 Tìm bài mới</button>
+        <button class="btn ghost" id="install" hidden>📲 Cài thành ứng dụng</button>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="wrap foot" id="foot"></footer>
+
+<script src="lessons.js"></script>
+<script>
+(function(){
+  var TOPICS = [
+    {n:1, en:'Pets',                vi:'Thú cưng trong nhà', emo:'🐶'},
+    {n:2, en:'Park & Games',        vi:'Hoạt động vui chơi', emo:'🛝'},
+    {n:3, en:'Food & Drinks',       vi:'Món ăn & đồ uống',   emo:'🍜'},
+    {n:4, en:'School & Classmates', vi:'Trường học & bạn bè', emo:'🏫'},
+    {n:5, en:'Family & Home',       vi:'Gia đình & ngôi nhà', emo:'🏠'}
+  ];
+  var L = (window.LESSONS || []).slice();
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function starsOf(id){ try{ return parseInt(localStorage.getItem('stars:'+id),10) || 0; }catch(e){ return 0; } }
+  function niceDate(d){
+    try{ var p = d.split('-'); var dt = new Date(+p[0], +p[1]-1, +p[2]);
+      var s = dt.toLocaleDateString('vi-VN',{weekday:'long', day:'2-digit', month:'2-digit', year:'numeric'});
+      return s.charAt(0).toUpperCase()+s.slice(1);
+    }catch(e){ return d; }
+  }
+
+  var total = 0;
+  L.forEach(function(l){ total += starsOf(l.id); });
+  $('total').textContent = total;
+
+  var latest = L[L.length-1];
+  if(latest){
+    $('latest').href = latest.path;
+    $('latestEmo').textContent = latest.emoji;
+    $('latestTitle').textContent = 'Chủ đề '+latest.topic+': '+latest.title;
+    $('latestVi').textContent = latest.vi + ' · ' + niceDate(latest.date);
+  } else {
+    $('latestTitle').textContent = 'Chưa có bài nào';
+  }
+
+  $('topics').innerHTML = TOPICS.map(function(t){
+    var mine = L.filter(function(l){ return l.topic === t.n; });
+    if(!mine.length){
+      return '<li class="topic locked"><span class="n">'+t.n+'</span><span class="t-emo">'+t.emo+'</span><b>'+esc(t.en)+'</b><span class="t-vi">'+esc(t.vi)+'</span><span class="t-state">🔒 Sắp có</span></li>';
+    }
+    var last = mine[mine.length-1], st = 0;
+    mine.forEach(function(l){ st += starsOf(l.id); });
+    return '<li class="topic"><span class="n">'+t.n+'</span><span class="t-emo">'+t.emo+'</span><b>'+esc(t.en)+'</b><span class="t-vi">'+esc(t.vi)+'</span>'+
+      '<span class="t-state'+(st?' done':'')+'">'+(st ? '⭐ '+st+' sao' : mine.length+' bài')+'</span>'+
+      '<a class="btn" href="'+esc(last.path)+'">Học ngay</a></li>';
+  }).join('');
+
+  var byDay = {};
+  L.forEach(function(l){ (byDay[l.date] = byDay[l.date] || []).push(l); });
+  var dates = Object.keys(byDay).sort().reverse();
+  $('days').innerHTML = dates.length ? dates.map(function(d){
+    return '<div class="day"><h4>'+esc(niceDate(d))+'</h4><ul>'+byDay[d].map(function(l){
+      var st = starsOf(l.id);
+      return '<li><a class="row" href="'+esc(l.path)+'"><span class="r-emo">'+l.emoji+'</span>'+
+        '<span><b>Chủ đề '+l.topic+': '+esc(l.title)+'</b><br><span class="words">'+esc((l.words||[]).join(' · '))+'</span></span>'+
+        '<span class="r-stars">'+(st ? '⭐ '+st : 'Chưa học')+'</span></a></li>';
+    }).join('')+'</ul></div>';
+  }).join('') : '<p>Chưa có bài nào.</p>';
+
+  $('foot').textContent = L.length + ' bài · cập nhật ' + (latest ? niceDate(latest.date) : '—');
+
+  $('refresh').addEventListener('click', function(){ location.reload(); });
+
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; $('install').hidden = false; });
+  $('install').addEventListener('click', function(){ if(deferred){ deferred.prompt(); deferred = null; $('install').hidden = true; } });
+
+  if('serviceWorker' in navigator && location.protocol === 'https:'){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
+})();
+</script>
+</body>
+</html>
