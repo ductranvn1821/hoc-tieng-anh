@@ -55,7 +55,7 @@ p{margin:0}
 .sec{padding-block:30px}
 .sec h3{font-family:var(--display);font-size:28px;margin:0 0 14px;line-height:1.1}
 .sec h3 small{display:block;font-family:var(--body);font-size:15px;color:var(--ink-soft);font-weight:700}
-.topics{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.topics{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;row-gap:24px}
 .topic{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);padding:14px 12px;display:grid;gap:4px;justify-items:center;text-align:center;min-width:0}
 .topic.locked{background:var(--lock);border-color:var(--line);box-shadow:0 5px 0 var(--line);color:var(--ink-soft)}
 .topic .n{position:absolute;top:-14px;left:12px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--coral);color:var(--on-coral);font-family:var(--display);font-weight:800;border:2px solid var(--ink)}
@@ -125,7 +125,7 @@ p{margin:0}
   </section>
 
   <section class="wrap sec">
-    <h3>5 chủ đề <small>Đi lần lượt từ trạm 1 đến trạm 5</small></h3>
+    <h3>Các chủ đề <small>Học lần lượt, hoặc chọn chủ đề bé thích</small></h3>
     <ol class="topics" id="topics"></ol>
   </section>
 
@@ -154,7 +154,8 @@ p{margin:0}
     {n:2, en:'Park & Games',        vi:'Hoạt động vui chơi', emo:'⚽'},
     {n:3, en:'Food & Drinks',       vi:'Món ăn & đồ uống',   emo:'🍜'},
     {n:4, en:'School & Classmates', vi:'Trường học & bạn bè', emo:'🏫'},
-    {n:5, en:'Family & Home',       vi:'Gia đình & ngôi nhà', emo:'🏠'}
+    {n:5, en:'Family & Home',       vi:'Gia đình & ngôi nhà', emo:'🏠'},
+    {n:6, en:'Weather',             vi:'Thiên nhiên: thời tiết', emo:'☀️'}
   ];
   var L = (window.LESSONS || []).slice();
   function $(id){ return document.getElementById(id); }

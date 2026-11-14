@@ -29,5 +29,15 @@ window.LESSONS = [
     date: "2026-11-12",
     path: "2026-11-12/bai-3-food-drinks.html",
     words: ["noodles", "chicken", "rice", "bread", "milk", "juice"]
+  },
+  {
+    id: "bai-6-weather",
+    topic: 6,
+    title: "Weather",
+    vi: "Thiên nhiên: thời tiết",
+    emoji: "☀️",
+    date: "2026-11-14",
+    path: "2026-11-14/bai-6-weather.html",
+    words: ["sunny", "rainy", "cloudy", "windy", "snowy", "stormy"]
   }
 ];
