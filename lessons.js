@@ -39,5 +39,15 @@ window.LESSONS = [
     date: "2026-11-14",
     path: "2026-11-14/bai-6-weather.html",
     words: ["sunny", "rainy", "cloudy", "windy", "snowy", "stormy"]
+  },
+  {
+    id: "bai-4-school",
+    topic: 4,
+    title: "School & Classmates",
+    vi: "Trường học & bạn bè",
+    emoji: "🎒",
+    date: "2026-11-14",
+    path: "2026-11-14/bai-4-school.html",
+    words: ["book", "pen", "pencil", "ruler", "crayon", "school bag"]
   }
 ];
