@@ -49,5 +49,15 @@ window.LESSONS = [
     date: "2026-11-14",
     path: "2026-11-14/bai-4-school.html",
     words: ["book", "pen", "pencil", "ruler", "crayon", "school bag"]
+  },
+  {
+    id: "bai-5-family",
+    topic: 5,
+    title: "Family & Home",
+    vi: "Gia đình & ngôi nhà",
+    emoji: "🏠",
+    date: "2026-11-15",
+    path: "2026-11-15/bai-5-family.html",
+    words: ["mother", "father", "sister", "brother", "grandma", "grandpa"]
   }
 ];
