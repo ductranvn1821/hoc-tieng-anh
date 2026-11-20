@@ -99,5 +99,65 @@ window.LESSONS = [
     date: "2026-11-20",
     path: "2026-11-20/bai-10-farm.html",
     words: ["chicken", "duck", "pig", "cow", "goat", "buffalo"]
+  },
+  {
+    id: "bai-11-1-my-toys",
+    topic: 11,
+    title: "Toys 1 · My Toys",
+    vi: "Đồ chơi · Bài 1: Đồ chơi của tớ",
+    emoji: "🧸",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-11-1-my-toys.html",
+    words: ["ball", "doll", "teddy bear", "robot", "car", "kite"]
+  },
+  {
+    id: "bai-11-2-favorite-toys",
+    topic: 11,
+    title: "Toys 2 · Favorite Toys",
+    vi: "Đồ chơi · Bài 2: Đồ chơi yêu thích",
+    emoji: "🚂",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-11-2-favorite-toys.html",
+    words: ["train", "plane", "boat", "yo-yo", "puzzle", "blocks"]
+  },
+  {
+    id: "bai-11-3-where",
+    topic: 11,
+    title: "Toys 3 · Where's My Toy?",
+    vi: "Đồ chơi · Bài 3: Đồ chơi ở đâu?",
+    emoji: "🔍",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-11-3-where.html",
+    words: ["box", "bed", "chair", "sofa", "basket", "bag"]
+  },
+  {
+    id: "bai-11-4-toy-shop",
+    topic: 11,
+    title: "Toys 4 · Toy Shop",
+    vi: "Đồ chơi · Bài 4: Cửa hàng đồ chơi",
+    emoji: "🏪",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-11-4-toy-shop.html",
+    words: ["five", "six", "seven", "eight", "nine", "ten"]
+  },
+  {
+    id: "bai-11-5-lets-play",
+    topic: 11,
+    title: "Toys 5 · Let's Play!",
+    vi: "Đồ chơi · Bài 5: Cùng chơi nào!",
+    emoji: "🪁",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-11-5-lets-play.html",
+    words: ["kick a ball", "throw a ball", "fly a kite", "build blocks", "ride a scooter", "play the drum"]
+  },
+  {
+    id: "bai-11-6-birthday",
+    topic: 11,
+    title: "Toys 6 · Birthday Party",
+    vi: "Đồ chơi · Bài 6: Tiệc sinh nhật",
+    emoji: "🎂",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-11-6-birthday.html",
+    words: ["present", "balloon", "cake", "candle", "card", "party"]
   }
 ];

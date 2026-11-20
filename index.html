@@ -66,6 +66,9 @@ p{margin:0}
 .topic .t-state{margin-top:6px;font-size:14px;font-weight:800}
 .topic .t-state.done{color:var(--grass)}
 .topic a.btn{font-size:15px;padding:5px 12px;margin-top:6px}
+.t-parts{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;margin-top:6px}
+.t-parts a{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:var(--sun-soft);color:var(--ink);font-weight:800;font-size:13px;text-decoration:none}
+.t-parts a.done{background:var(--grass-soft);border-color:var(--grass)}
 
 .days{display:grid;gap:18px}
 .day h4{margin:0 0 8px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)}
@@ -159,7 +162,8 @@ p{margin:0}
     {n:7, en:'Flowers',             vi:'Thiên nhiên: các loài hoa', emo:'🌸'},
     {n:8, en:'Under the Sea',       vi:'Thiên nhiên: cá & con vật dưới nước', emo:'🐠'},
     {n:9, en:'Birds',               vi:'Thiên nhiên: các loài chim', emo:'🦜'},
-    {n:10, en:'Farm Animals',       vi:'Thiên nhiên: vật nuôi trong vườn', emo:'🐔'}
+    {n:10, en:'Farm Animals',       vi:'Thiên nhiên: vật nuôi trong vườn', emo:'🐔'},
+    {n:11, en:'Toys',               vi:'Đồ chơi (6 bài, có trò chơi)', emo:'🧸'}
   ];
   var L = (window.LESSONS || []).slice();
   function $(id){ return document.getElementById(id); }
@@ -196,10 +200,14 @@ p{margin:0}
       return '<li class="topic locked"><span class="n">'+t.n+'</span><span class="t-emo">'+t.emo+'</span><b>'+esc(t.en)+'</b><span class="t-vi">'+esc(t.vi)+'</span><span class="t-state">🔒 Sắp có</span></li>';
     }
     var last = mine[mine.length-1], bt = null;
+    if(mine.length > 1){ last = mine.filter(function(l){ return bestOf(l.id) === null; })[0] || mine[0]; }
+    var parts = mine.length > 1 ? '<span class="t-parts">'+mine.map(function(l, i){
+      return '<a href="'+esc(l.path)+'" class="'+(bestOf(l.id) !== null ? 'done' : '')+'" title="'+esc(l.title)+'">'+(i+1)+'</a>';
+    }).join('')+'</span>' : '';
     mine.forEach(function(l){ var b = bestOf(l.id); if(b !== null && (bt === null || b > bt)) bt = b; });
     return '<li class="topic"><span class="n">'+t.n+'</span><span class="t-emo">'+t.emo+'</span><b>'+esc(t.en)+'</b><span class="t-vi">'+esc(t.vi)+'</span>'+
       '<span class="t-state'+(bt !== null ? ' done' : '')+'">'+(bt !== null ? '🏅 '+fmtS(bt)+'/10' : mine.length+' bài')+'</span>'+
-      '<a class="btn" href="'+esc(last.path)+'">Học ngay</a></li>';
+      parts+'<a class="btn" href="'+esc(last.path)+'">Học ngay</a></li>';
   }).join('');
 
   var byDay = {};
