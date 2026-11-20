@@ -59,5 +59,45 @@ window.LESSONS = [
     date: "2026-11-15",
     path: "2026-11-15/bai-5-family.html",
     words: ["mother", "father", "sister", "brother", "grandma", "grandpa"]
+  },
+  {
+    id: "bai-7-flowers",
+    topic: 7,
+    title: "Flowers",
+    vi: "Các loài hoa",
+    emoji: "🌸",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-7-flowers.html",
+    words: ["rose", "sunflower", "tulip", "daisy", "hibiscus", "cherry blossom"]
+  },
+  {
+    id: "bai-8-sea",
+    topic: 8,
+    title: "Under the Sea",
+    vi: "Cá & con vật dưới nước",
+    emoji: "🐠",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-8-sea.html",
+    words: ["goldfish", "shark", "whale", "dolphin", "octopus", "crab"]
+  },
+  {
+    id: "bai-9-birds",
+    topic: 9,
+    title: "Birds",
+    vi: "Các loài chim",
+    emoji: "🦜",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-9-birds.html",
+    words: ["parrot", "owl", "eagle", "penguin", "swan", "peacock"]
+  },
+  {
+    id: "bai-10-farm",
+    topic: 10,
+    title: "Farm Animals",
+    vi: "Vật nuôi trong vườn",
+    emoji: "🐔",
+    date: "2026-11-20",
+    path: "2026-11-20/bai-10-farm.html",
+    words: ["chicken", "duck", "pig", "cow", "goat", "buffalo"]
   }
 ];
