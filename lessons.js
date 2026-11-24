@@ -209,5 +209,35 @@ window.LESSONS = [
     date: "2026-11-24",
     path: "2026-11-24/bai-12-5-helping.html",
     words: ["sweep the floor", "wash the dishes", "make the bed", "water the plants", "fold the clothes", "feed the cat"]
+  },
+  {
+    id: "bai-13-1-hello",
+    topic: 13,
+    title: "Hello 1 · Hello and Hi",
+    vi: "Sách giáo khoa: Unit 1 · Bài 1: Chào hỏi và giới thiệu tên",
+    emoji: "👋",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-13-1-hello.html",
+    words: ["hello", "hi", "Ben", "Mai", "Minh", "Lucy"]
+  },
+  {
+    id: "bai-13-2-how-are-you",
+    topic: 13,
+    title: "Hello 2 · How Are You?",
+    vi: "Sách giáo khoa: Unit 1 · Bài 2: Hỏi thăm và tạm biệt",
+    emoji: "😊",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-13-2-how-are-you.html",
+    words: ["goodbye", "bye", "fine", "thank you", "how are you", "friend"]
+  },
+  {
+    id: "bai-13-3-goodbye",
+    topic: 13,
+    title: "Hello 3 · Hello and Goodbye",
+    vi: "Sách giáo khoa: Unit 1 · Bài 3: Bài chant và ôn tập",
+    emoji: "🎵",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-13-3-goodbye.html",
+    words: ["hello", "hi", "bye", "goodbye", "name", "school"]
   }
 ];
