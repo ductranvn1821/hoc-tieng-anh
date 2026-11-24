@@ -519,6 +519,51 @@
     F.intro(start);
   };
 
+  /* ========== 10. Xếp đồ vào đúng phòng (nhóm) ==========
+     o.items: [{w, e, vi, room}], o.bins: [{id, w, e, vi, at}] (at = 'in the kitchen'); item.room = bin.id. */
+  G.sort = function (F, o) {
+    var items = o.items, bins = o.bins, R = o.rounds || 8;
+    function bin(id) { return bins.filter(function (b) { return b.id === id; })[0]; }
+    function line(it) { return 'The ' + it.w + (it.they ? ' go ' : ' goes ') + bin(it.room).at + '.'; }
+    function start() {
+      var order = plan(items, R), r = 0, right = 0, missed = false, it, lock = false;
+      F.head(null, function () { F.say(ask()); });
+      function ask() { return 'Where ' + (it.they ? 'do' : 'does') + ' the ' + it.w + ' go?'; }
+      F.body.innerHTML = '<p class="g-ask">🏠 <b class="g-sort-q"></b> <span class="vi">Đồ này để ở phòng nào?</span></p>' +
+        '<div class="g-sort-it"></div><div class="g-bins">' + bins.map(function (b) {
+          return '<button class="g-bin" data-id="' + esc(b.id) + '"><span class="g-bin-e">' + b.e + '</span><b>' + esc(b.w) + '</b>' +
+            '<span class="vi">' + esc(b.vi) + '</span><span class="g-bin-in"></span></button>';
+        }).join('') + '</div>';
+      var q = F.body.querySelector('.g-sort-q'), card = F.body.querySelector('.g-sort-it');
+      function round() {
+        if (r >= R) { F.finish(right / R, 'Xếp đúng ' + right + '/' + R + ' món đồ', start); return; }
+        F.progress(r, R, 'đúng ' + right);
+        it = order[r]; missed = false; lock = false;
+        q.textContent = ask();
+        card.className = 'g-sort-it'; void card.offsetWidth; card.classList.add('in');
+        card.innerHTML = '<span>' + it.e + '</span><b>' + esc(it.w) + '</b>';
+        F.later(function () { F.say(ask()); }, 300);
+      }
+      F.body.querySelector('.g-bins').addEventListener('click', function (e) {
+        var b = e.target.closest('.g-bin'); if (!b || lock) return;
+        if (b.getAttribute('data-id') === it.room) {
+          lock = true; if (!missed) right++;
+          b.querySelector('.g-bin-in').insertAdjacentHTML('beforeend', '<span>' + it.e + '</span>');
+          b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit');
+          card.classList.add('gone');
+          F.fx.yay(); F.say(line(it));
+          r++; F.later(round, 1500);
+        } else {
+          missed = true; F.fx.oops();
+          b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad');
+          F.fx.toast('Không phải ' + bin(b.getAttribute('data-id')).vi + ' đâu! 🤔', 'try');
+        }
+      });
+      round();
+    }
+    F.intro(start);
+  };
+
   /* ---------- CSS ---------- */
   function css() {
     if (document.getElementById('games-css')) return;
@@ -616,7 +661,18 @@
       '.g-wheel{--wr:104px;position:absolute;inset:14px;border-radius:50%;border:5px solid var(--ink);box-shadow:0 6px 0 var(--ink);transition:transform 2.6s cubic-bezier(.17,.67,.21,1)}' +
       '.g-sec{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;display:grid;place-items:center;font-size:38px;line-height:1}' +
       '.g-wq{min-height:40px;margin-top:10px}.g-wq-emo{font-size:40px;vertical-align:middle}' +
+      /* sort */
+      '.g-sort-it{display:grid;justify-items:center;gap:2px;width:150px;margin:0 auto 14px;padding:10px 6px;background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink)}' +
+      '.g-sort-it span{font-size:64px;line-height:1.1}.g-sort-it b{font-family:var(--display);font-size:22px}' +
+      '.g-sort-it.in{animation:pop .35s}.g-sort-it.gone{opacity:0;transform:translateY(60px) scale(.5);transition:all .45s}' +
+      '.g-bins{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:640px;margin:0 auto}' +
+      '.g-bin{display:grid;justify-items:center;align-content:start;gap:1px;min-height:150px;padding:8px 4px;background:var(--sun-soft);border:3px dashed var(--ink);border-radius:18px;line-height:1.15}' +
+      '.g-bin-e{font-size:40px;line-height:1.1}.g-bin b{font-family:var(--display);font-size:18px}.g-bin .vi{font-size:13px}' +
+      '.g-bin-in{display:flex;flex-wrap:wrap;justify-content:center;font-size:22px;margin-top:4px}' +
+      '.g-bin:hover{background:var(--sky)}.g-bin.hit{border-style:solid;border-color:var(--grass);background:var(--grass-soft);animation:pop .35s}' +
+      '.g-bin.bad{animation:shake .4s;background:var(--berry-soft)}' +
       '@media (max-width:560px){' +
+      '.g-bins{grid-template-columns:repeat(2,minmax(0,1fr))}.g-bin{min-height:118px}' +
       '.g-mem{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.g-front.pic{font-size:38px}.g-front.word{font-size:16px}' +
       '.g-opts{grid-template-columns:1fr}.g-opt{flex-direction:row}' +
       '.g-item{width:78px}.g-item span{font-size:36px}' +

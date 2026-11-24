@@ -159,5 +159,55 @@ window.LESSONS = [
     date: "2026-11-20",
     path: "2026-11-20/bai-11-6-birthday.html",
     words: ["present", "balloon", "cake", "candle", "card", "party"]
+  },
+  {
+    id: "bai-12-1-living-room",
+    topic: 12,
+    title: "Home 1 · In the Living Room",
+    vi: "Đồ vật trong nhà · Bài 1: Phòng khách",
+    emoji: "📺",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-12-1-living-room.html",
+    words: ["TV", "clock", "lamp", "phone", "door", "picture"]
+  },
+  {
+    id: "bai-12-2-kitchen",
+    topic: 12,
+    title: "Home 2 · In the Kitchen",
+    vi: "Đồ vật trong nhà · Bài 2: Trong bếp",
+    emoji: "🥣",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-12-2-kitchen.html",
+    words: ["cup", "glass", "bowl", "spoon", "chopsticks", "plate"]
+  },
+  {
+    id: "bai-12-3-bathroom",
+    topic: 12,
+    title: "Home 3 · In the Bathroom",
+    vi: "Đồ vật trong nhà · Bài 3: Phòng tắm",
+    emoji: "🛁",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-12-3-bathroom.html",
+    words: ["soap", "sponge", "shower", "bathtub", "toilet", "toilet paper"]
+  },
+  {
+    id: "bai-12-4-rooms",
+    topic: 12,
+    title: "Home 4 · Where Does It Go?",
+    vi: "Đồ vật trong nhà · Bài 4: Đồ này để ở đâu?",
+    emoji: "🏠",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-12-4-rooms.html",
+    words: ["house", "living room", "kitchen", "bedroom", "bathroom", "garden"]
+  },
+  {
+    id: "bai-12-5-helping",
+    topic: 12,
+    title: "Home 5 · Helping at Home",
+    vi: "Đồ vật trong nhà · Bài 5: Giúp bố mẹ việc nhà",
+    emoji: "🧹",
+    date: "2026-11-24",
+    path: "2026-11-24/bai-12-5-helping.html",
+    words: ["sweep the floor", "wash the dishes", "make the bed", "water the plants", "fold the clothes", "feed the cat"]
   }
 ];
