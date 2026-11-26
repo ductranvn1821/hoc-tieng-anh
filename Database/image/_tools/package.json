@@ -1,0 +1,11 @@
+{
+  "name": "hoc-tieng-anh-image-tools",
+  "private": true,
+  "description": "Bộ icon miễn phí cho thư viện ảnh học tiếng Anh",
+  "dependencies": {
+    "@iconify-json/fluent-emoji-flat": "*",
+    "@iconify-json/noto": "*",
+    "@iconify-json/twemoji": "*",
+    "@resvg/resvg-js": "*"
+  }
+}
